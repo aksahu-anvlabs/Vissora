@@ -39,3 +39,9 @@ After making changes, rebuild and install the application using the appropriate 
 
 ! PLEASE CHECK AND MAKE SURE THE STREAM URL IS VALID AND REACHABLE BEFORE STARTING THE STREAM. MODIFY, ADD OR REMOVE STREAMS FROM THE CPanel.kt file inside androidMain
 
+## Server (Reverse Tracing)
+
+To run local server for Reverse Tracer for tracking multiple vechiles, faces across webcams launch the python websocket server (main.py) and the flask server (server.py) inside the Server directory.
+
+- **wss server:** python Server/main.py
+- **flask server:** python Server/server.py
