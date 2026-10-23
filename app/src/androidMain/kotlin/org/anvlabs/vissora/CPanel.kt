@@ -58,6 +58,7 @@ import android.graphics.Bitmap
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.focus.onFocusChanged
 
 import android.os.Handler
 import android.os.Looper
@@ -99,39 +100,6 @@ var streamData by mutableStateOf("""
         "source": "../assets/videos/video3.mp4",
         "loc": "D.A.V Public School",
         "url": "rtsp://192.168.29.145:8554/camera",
-        "detection": false,
-        "nv": 0,
-        "nf": 0,
-        "fps": 60
-    },
-    {
-        "name": "cam 2",
-        "source": "../assets/videos/video2.mp4",
-        "loc": "D.A.V Public School",
-        "url": "rtsp://rtsp.rtsplink.com/live/people?token=d3fd34335e2fdedc389f54e8bd8dfe7a5362aa36733fa007ae912f9dcc949709",
-        "stream": true,
-        "detection": false,
-        "nv": 0,
-        "nf": 0,
-        "fps": 60
-    },
-    {
-        "name": "cam 3",
-        "source": "../assets/videos/video2.mp4",
-        "loc": "D.A.V Public School",
-        "url": "rtsp://127.0.0.1:8554/camera",
-        "stream": true,
-        "detection": false,
-        "nv": 0,
-        "nf": 0,
-        "fps": 60
-    },
-    {
-        "name": "cam 4",
-        "source": "../assets/videos/video2.mp4",
-        "loc": "D.A.V Public School",
-        "url": "rtsp://127.0.0.1:8554/camera",
-        "stream": true,
         "detection": false,
         "nv": 0,
         "nf": 0,
@@ -365,9 +333,90 @@ fun CPanelWindow(){
     var globalCam by remember { mutableStateOf("") }
     var globalURL by remember { mutableStateOf("") }
     var globalPlay by remember { mutableStateOf(true) }
+    var addDialog by remember { mutableStateOf(false) }
+    var camName by remember { mutableStateOf("") }
+    var camURL by remember { mutableStateOf("") }
+    val parsedData = remember(streamData) { JSONArray(streamData) }
+
+    if(addDialog){
+        AlertDialog(
+            onDismissRequest = { 
+                addDialog = false
+            },
+            icon = {
+                Icon(painter = painterResource(R.drawable.edit), contentDescription = "edit")
+            },
+            title = {
+                Text(text = "Add stream", fontFamily=openSans)
+            },
+            text = {
+                Column(verticalArrangement=Arrangement.spacedBy(20.dp)){
+                    OutlinedTextField(
+                        value = camName,
+                        onValueChange = { camName = it },
+                        label = { Text("Cam Name") },
+                        modifier = Modifier,
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedBorderColor = Color(0xFFcccccc),
+                            unfocusedBorderColor = Color(0xFFcccccc), 
+                            focusedLabelColor = Color(0xFFcccccc),
+                            unfocusedLabelColor = Color(0xFFcccccc),
+                            cursorColor = Color(0xFFcccccc)
+                        )
+                    )
+                    OutlinedTextField(
+                        value = camURL,
+                        onValueChange = { camURL = it },
+                        label = { Text("URL") },
+                        modifier = Modifier,
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedBorderColor = Color(0xFFcccccc),
+                            unfocusedBorderColor = Color(0xFFcccccc), 
+                            focusedLabelColor = Color(0xFFcccccc),
+                            unfocusedLabelColor = Color(0xFFcccccc),
+                            cursorColor = Color(0xFFcccccc)
+                        )
+                    )
+                }
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        if(camName.trim() != "" && camURL.trim() != ""){
+                            val obj = JSONObject("""{
+                                "name": "cam 1",
+                                "source": "../assets/videos/video3.mp4",
+                                "loc": "D.A.V Public School",
+                                "url": "rtsp://192.168.29.145:8554/camera",
+                                "detection": false,
+                                "nv": 0,
+                                "nf": 0,
+                                "fps": 60
+                            }""")
+                            obj.put("name", camName)
+                            obj.put("url", camURL)
+                            parsedData.put(obj)
+                            streamData = parsedData.toString()
+                        }
+                        addDialog = false
+                    }
+                ) {
+                    Text("Add", fontFamily=InterFont, color=Color.White)
+                }
+            },
+            dismissButton = {
+                TextButton(
+                    onClick = {
+                        addDialog = false
+                    }
+                ) {
+                    Text("Cancel", fontFamily=InterFont, color=Color.White)
+                }
+            }
+        )
+    }
 
     // Parse streamData ONLY when it actually changes, not on every recomposition
-    val parsedData = remember(streamData) { JSONArray(streamData) }
     LaunchedEffect(Unit) {
         val mediaDirs = context.externalMediaDirs
         val baseDir = mediaDirs.firstOrNull() ?: context.filesDir
@@ -439,12 +488,21 @@ fun CPanelWindow(){
                     }
                     Column(modifier=Modifier.clip(RoundedCornerShape(12.dp))){
                         Box(modifier = Modifier.fillMaxWidth().aspectRatio(1f/0.65f)){
-                            if(emptyCell){
+                            if (emptyCell) {
+                                var isFocused by remember { mutableStateOf(false) }
+
                                 Icon(
                                     painter = painterResource(R.drawable.add),
-                                    modifier=Modifier.size(30.dp).align(Alignment.Center),
-                                    tint = Color(0xffcccccc),
-                                    contentDescription = null
+                                    modifier = Modifier
+                                        .size(30.dp)
+                                        .align(Alignment.Center)
+                                        .onFocusChanged { isFocused = it.isFocused }
+                                        .focusable()
+                                        .clickable {
+                                            addDialog = !addDialog
+                                        },
+                                    tint = if (isFocused) Color(0xFF1E90FF) else Color(0xFFCCCCCC),
+                                    contentDescription = "Add camera"
                                 )
                             } else {
                                 val infiniteTransition = rememberInfiniteTransition(label = "infinite opacity transition")

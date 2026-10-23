@@ -89,12 +89,30 @@ JNIEXPORT void JNICALL Java_org_anvlabs_vissora_VideoStream_processYOLO(JNIEnv* 
 }
 
 JNIEXPORT jlong JNICALL Java_org_anvlabs_vissora_VideoStream_openStream(JNIEnv* env, jobject thiz, jstring name, jstring url) {
-    if (!url) return 0;
+    if (url == nullptr) {
+        __android_log_print(ANDROID_LOG_ERROR, "VissoraFFmpeg", "openStream: URL is null");
+        return 0;
+    }
+
     const char* rtsp_url = env->GetStringUTFChars(url, nullptr);
-    if (!rtsp_url) return 0;
-    auto* ctx = new (std::nothrow) DesktopPlayerCtx{};
-    if (!ctx) { env->ReleaseStringUTFChars(url, rtsp_url); return 0; }
-    ctx->name = env->GetStringUTFChars(name, nullptr);
+    if (rtsp_url == nullptr) return 0;
+
+    DesktopPlayerCtx* ctx = new (std::nothrow) DesktopPlayerCtx{};
+    if (ctx == nullptr) {
+        env->ReleaseStringUTFChars(url, rtsp_url);
+        return 0;
+    }
+
+    if (name != nullptr) {
+        const char* native_name = env->GetStringUTFChars(name, nullptr);
+        if (native_name == nullptr) {
+            env->ReleaseStringUTFChars(url, rtsp_url);
+            destroyPlayer(ctx);
+            return 0;
+        }
+        ctx->name = native_name;
+        env->ReleaseStringUTFChars(name, native_name);
+    }
 
     AVDictionary* opts = nullptr;
     av_dict_set(&opts, "rtsp_transport", "tcp", 0);
@@ -107,38 +125,71 @@ JNIEXPORT jlong JNICALL Java_org_anvlabs_vissora_VideoStream_openStream(JNIEnv* 
     env->ReleaseStringUTFChars(url, rtsp_url);
 
     if (ret < 0) {
-        char errbuf[128];
+        char errbuf[AV_ERROR_MAX_STRING_SIZE];
         av_strerror(ret, errbuf, sizeof(errbuf));
         __android_log_print(ANDROID_LOG_ERROR, "VissoraFFmpeg", "avformat_open_input failed (%d): %s", ret, errbuf);
         destroyPlayer(ctx);
-        ctx->codec_ctx->thread_count = 0;
-        ctx->codec_ctx->thread_type = FF_THREAD_FRAME;
-        return 0; 
+        return 0;
     }
-    if (avformat_find_stream_info(ctx->fmt_ctx, nullptr) < 0) { destroyPlayer(ctx); return 0; }
+
+    ret = avformat_find_stream_info(ctx->fmt_ctx, nullptr);
+    if (ret < 0) {
+        __android_log_print(ANDROID_LOG_ERROR, "VissoraFFmpeg", "avformat_find_stream_info failed: %d", ret);
+        destroyPlayer(ctx);
+        return 0;
+    }
 
     const AVCodec* codec = nullptr;
     ctx->video_stream_idx = av_find_best_stream(ctx->fmt_ctx, AVMEDIA_TYPE_VIDEO, -1, -1, &codec, 0);
-    if (ctx->video_stream_idx < 0 || !codec) { destroyPlayer(ctx); return 0; }
+
+    if (ctx->video_stream_idx < 0 || codec == nullptr) {
+        __android_log_print(ANDROID_LOG_ERROR, "VissoraFFmpeg", "No video stream found");
+        destroyPlayer(ctx);
+        return 0;
+    }
 
     ctx->codec_ctx = avcodec_alloc_context3(codec);
-    if (!ctx->codec_ctx) { destroyPlayer(ctx); return 0; }
+    if (ctx->codec_ctx == nullptr) {
+        destroyPlayer(ctx);
+        return 0;
+    }
 
     ret = avcodec_parameters_to_context(ctx->codec_ctx, ctx->fmt_ctx->streams[ctx->video_stream_idx]->codecpar);
-    if (ret < 0) { destroyPlayer(ctx); return 0; }
+    if (ret < 0) {
+        destroyPlayer(ctx);
+        return 0;
+    }
 
     ret = avcodec_open2(ctx->codec_ctx, codec, nullptr);
-    if (ret < 0) { destroyPlayer(ctx); return 0; }
+    if (ret < 0) {
+        __android_log_print(ANDROID_LOG_ERROR, "VissoraFFmpeg", "avcodec_open2 failed: %d", ret);
+        destroyPlayer(ctx);
+        return 0;
+    }
+
+    ctx->codec_ctx->thread_count = 0;
+    ctx->codec_ctx->thread_type = FF_THREAD_FRAME;
 
     ctx->width = ctx->codec_ctx->width;
     ctx->height = ctx->codec_ctx->height;
-    if (ctx->width <= 0 || ctx->height <= 0) { destroyPlayer(ctx); return 0; }
+
+    if (ctx->width <= 0 || ctx->height <= 0) {
+        destroyPlayer(ctx);
+        return 0;
+    }
 
     ctx->raw_frame = av_frame_alloc();
-    if (!ctx->raw_frame) { destroyPlayer(ctx); return 0; }
+    if (ctx->raw_frame == nullptr) {
+        destroyPlayer(ctx);
+        return 0;
+    }
 
     ctx->sws_ctx = sws_getContext(ctx->width, ctx->height, ctx->codec_ctx->pix_fmt, ctx->width, ctx->height, AV_PIX_FMT_RGBA, SWS_BILINEAR, nullptr, nullptr, nullptr);
-    if (!ctx->sws_ctx) { destroyPlayer(ctx); return 0; }
+    if (ctx->sws_ctx == nullptr) {
+        destroyPlayer(ctx);
+        return 0;
+    }
+
     return reinterpret_cast<jlong>(ctx);
 }
 
