@@ -37,3 +37,5 @@ androidMain/kotlin/.../cpanel.kt
 
 After making changes, rebuild and install the application using the appropriate Gradle command above.
 
+! PLEASE CHECK AND MAKE SURE THE STREAM URL IS VALID AND REACHABLE BEFORE STARTING THE STREAM. MODIFY, ADD OR REMOVE STREAMS FROM THE CPanel.kt file inside androidMain
+
