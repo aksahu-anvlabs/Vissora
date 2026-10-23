@@ -1,0 +1,32 @@
+{
+  "buildFiles": [
+    "C:\\Users\\ajayk\\OneDrive\\Desktop\\Amar\\AI\\Projects\\Vissora\\Software\\app\\src\\androidMain\\cpp\\CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "C:\\Users\\ajayk\\AppData\\Local\\Android\\Sdk\\cmake\\3.22.1\\bin\\ninja.exe",
+      "-C",
+      "C:\\Users\\ajayk\\OneDrive\\Desktop\\Amar\\AI\\Projects\\Vissora\\Software\\app\\.cxx\\Debug\\6369n192\\x86",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "C:\\Users\\ajayk\\AppData\\Local\\Android\\Sdk\\cmake\\3.22.1\\bin\\ninja.exe",
+    "-C",
+    "C:\\Users\\ajayk\\OneDrive\\Desktop\\Amar\\AI\\Projects\\Vissora\\Software\\app\\.cxx\\Debug\\6369n192\\x86",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {
+    "main::@6890427a1f51a3e7e1df": {
+      "artifactName": "main",
+      "abi": "x86",
+      "output": "C:\\Users\\ajayk\\OneDrive\\Desktop\\Amar\\AI\\Projects\\Vissora\\Software\\app\\build\\intermediates\\cxx\\Debug\\6369n192\\obj\\x86\\libmain.so",
+      "runtimeFiles": [
+        "C:\\Users\\ajayk\\OneDrive\\Desktop\\Amar\\AI\\Projects\\Vissora\\Software\\app\\src\\androidMain\\jniLibs\\x86\\libavformat.so",
+        "C:\\Users\\ajayk\\OneDrive\\Desktop\\Amar\\AI\\Projects\\Vissora\\Software\\app\\src\\androidMain\\jniLibs\\x86\\libavcodec.so",
+        "C:\\Users\\ajayk\\OneDrive\\Desktop\\Amar\\AI\\Projects\\Vissora\\Software\\app\\src\\androidMain\\jniLibs\\x86\\libswscale.so",
+        "C:\\Users\\ajayk\\OneDrive\\Desktop\\Amar\\AI\\Projects\\Vissora\\Software\\app\\src\\androidMain\\jniLibs\\x86\\libavutil.so"
+      ]
+    }
+  }
+}

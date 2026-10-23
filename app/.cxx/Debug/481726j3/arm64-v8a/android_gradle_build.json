@@ -1,0 +1,44 @@
+{
+  "buildFiles": [
+    "C:\\Users\\ajayk\\OneDrive\\Desktop\\Amar\\AI\\Projects\\Vissora\\Software\\app\\src\\androidMain\\cpp\\CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "C:\\Users\\ajayk\\AppData\\Local\\Android\\Sdk\\cmake\\3.22.1\\bin\\ninja.exe",
+      "-C",
+      "C:\\Users\\ajayk\\OneDrive\\Desktop\\Amar\\AI\\Projects\\Vissora\\Software\\app\\.cxx\\Debug\\481726j3\\arm64-v8a",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "C:\\Users\\ajayk\\AppData\\Local\\Android\\Sdk\\cmake\\3.22.1\\bin\\ninja.exe",
+    "-C",
+    "C:\\Users\\ajayk\\OneDrive\\Desktop\\Amar\\AI\\Projects\\Vissora\\Software\\app\\.cxx\\Debug\\481726j3\\arm64-v8a",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {
+    "main::@6890427a1f51a3e7e1df": {
+      "toolchain": "toolchain",
+      "abi": "arm64-v8a",
+      "artifactName": "main",
+      "output": "C:\\Users\\ajayk\\OneDrive\\Desktop\\Amar\\AI\\Projects\\Vissora\\Software\\app\\build\\intermediates\\cxx\\Debug\\481726j3\\obj\\arm64-v8a\\libmain.so",
+      "runtimeFiles": [
+        "C:\\Users\\ajayk\\OneDrive\\Desktop\\Amar\\AI\\Projects\\Vissora\\Software\\app\\src\\androidMain\\jniLibs\\arm64-v8a\\libavformat.so",
+        "C:\\Users\\ajayk\\OneDrive\\Desktop\\Amar\\AI\\Projects\\Vissora\\Software\\app\\src\\androidMain\\jniLibs\\arm64-v8a\\libavcodec.so",
+        "C:\\Users\\ajayk\\OneDrive\\Desktop\\Amar\\AI\\Projects\\Vissora\\Software\\app\\src\\androidMain\\jniLibs\\arm64-v8a\\libswscale.so",
+        "C:\\Users\\ajayk\\OneDrive\\Desktop\\Amar\\AI\\Projects\\Vissora\\Software\\app\\src\\androidMain\\jniLibs\\arm64-v8a\\libavutil.so",
+        "C:\\Users\\ajayk\\OneDrive\\Desktop\\Amar\\AI\\Projects\\Vissora\\Software\\app\\src\\androidMain\\jniLibs\\arm64-v8a\\libncnn.so"
+      ]
+    }
+  },
+  "toolchains": {
+    "toolchain": {
+      "cCompilerExecutable": "C:\\Users\\ajayk\\AppData\\Local\\Android\\Sdk\\ndk\\30.0.16138531\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang.exe",
+      "cppCompilerExecutable": "C:\\Users\\ajayk\\AppData\\Local\\Android\\Sdk\\ndk\\30.0.16138531\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe"
+    }
+  },
+  "cFileExtensions": [],
+  "cppFileExtensions": [
+    "cpp"
+  ]
+}

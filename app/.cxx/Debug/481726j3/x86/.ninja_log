@@ -1,0 +1,17 @@
+# ninja log v5
+49	466	8144166486924870	CMakeFiles/main.dir/ByteTrack/lapjv.cpp.o	6f66dff5bcb13dfa
+157	5233	8144166534479559	CMakeFiles/main.dir/ByteTrack/Rect.cpp.o	b9d70fbbc7175575
+31	5306	8144451760236053	CMakeFiles/main.dir/helper.cpp.o	1bdc2b3bb1f5657a
+136	4334	8144166525392177	CMakeFiles/main.dir/ByteTrack/Object.cpp.o	c2e88e0cef22469e
+65	6167	8144166543891071	CMakeFiles/main.dir/ByteTrack/BYTETracker.cpp.o	6b45301def33910f
+98	15968	8144166641252754	CMakeFiles/main.dir/ByteTrack/KalmanFilter.cpp.o	f7829a5803a443fd
+118	5044	8144166532559541	CMakeFiles/main.dir/ByteTrack/STrack.cpp.o	445b2ece86576bdc
+78	8346	8144451790492779	CMakeFiles/main.dir/inference.cpp.o	648d298ca748744c
+15	3631	8144563522621319	CMakeFiles/main.dir/video.cpp.o	afe6b38a1d54e522
+3633	4109	8144563526980954	C:/Users/ajayk/OneDrive/Desktop/Amar/AI/Projects/Vissora/Software/app/build/intermediates/cxx/Debug/481726j3/obj/x86/libmain.so	3bc201e8fe265e2
+0	32	0	clean	9a2e7175c3cc7a30
+34	5829	8144571830245084	CMakeFiles/main.dir/video.cpp.o	afe6b38a1d54e522
+63	6158	8144571833295373	CMakeFiles/main.dir/inference.cpp.o	648d298ca748744c
+6159	6885	8144571839940564	C:/Users/ajayk/OneDrive/Desktop/Amar/AI/Projects/Vissora/Software/app/build/intermediates/cxx/Debug/481726j3/obj/x86/libmain.so	3bc201e8fe265e2
+11	5955	8144573270333368	CMakeFiles/main.dir/video.cpp.o	afe6b38a1d54e522
+5957	6547	8144573276470775	C:/Users/ajayk/OneDrive/Desktop/Amar/AI/Projects/Vissora/Software/app/build/intermediates/cxx/Debug/481726j3/obj/x86/libmain.so	3bc201e8fe265e2
